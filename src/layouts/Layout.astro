@@ -1,0 +1,327 @@
+---
+import { ClientRouter } from "astro:transitions";
+import BackgroundCanvas from "@/components/ui/BackgroundCanvas.astro";
+import GitHubIcon from "@/icons/GitHubIcon.astro";
+import LinkedinIcon from "@/icons/LinkedinIcon.astro";
+
+interface Props {
+  title?: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Portafolio de Alexander OI, desarrollador web - frontend y backend."
+    />
+    <meta
+      name="keywords"
+      content="desarrollador web, frontend, backend, React, Node.js, programación, SEO"
+    />
+    <meta name="author" content="Alexander OI" />
+
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://alexander-oi.vercel.app/" />
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Alexander OI" />
+    <meta
+      name="description"
+      content="Portafolio de Alexander OI, desarrollador web - frontend y backend."
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://alexander-oi.vercel.app/" />
+    <meta property="og:title" content="Alexander OI" />
+    <meta
+      property="og:description"
+      content="Portafolio de Alexander OI, desarrollador web - frontend y backend."
+    />
+    <meta property="og:image" content="/favicon.webp" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://alexander-oi.vercel.app/" />
+    <meta property="twitter:title" content="Alexander OI" />
+    <meta
+      property="twitter:description"
+      content="Portafolio de Alexander OI Desarrollador Web - Frontend y Backend."
+    />
+    <meta property="twitter:image" content="/favicon.webp" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.webp" />
+
+    <title>{title ? `${title} - Alexander OI` : "Alexander OI"}</title>
+    <ClientRouter />
+  </head>
+  <body>
+    <BackgroundCanvas />
+    <header
+      class="flex justify-between bg-dark-gray rounded-xl px-6 py-3 fixed-center z-50 max-md:flex-col max-md:justify-center max-md:items-center"
+    >
+      <div class="flex">
+        <div class="font-bold text-3xl mr-7 max-md:hidden">
+          <a href="/">
+            <h2 class="text-gradient">{"<Alexander - OI/>"}</h2>
+          </a>
+        </div>
+
+        <nav class="flex items-center gap-6 text-nowrap">
+          <a href="/">/ Inicio</a>
+          <a href="/projects">/ Proyectos</a>
+        </nav>
+      </div>
+
+      <div class="w-auto flex items-center gap-3 svg-icons max-md:mt-2">
+        <i>
+          <GitHubIcon />
+        </i>
+
+        <i>
+          <LinkedinIcon />
+        </i>
+      </div>
+    </header>
+
+    <main class="mx-auto">
+      <slot />
+    </main>
+  </body>
+</html>
+<style is:global>
+  @font-face {
+    font-family: "Manrope";
+    src: url("/fonts/Manrope-Medium.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  * {
+    word-spacing: 0.1em;
+  }
+
+  :root {
+    --accent: 136, 58, 234;
+    --accent-light: 224, 204, 250;
+    --accent-dark: 49, 10, 101;
+    --accent-gradient: linear-gradient(
+      45deg,
+      rgb(var(--accent)),
+      rgb(var(--accent-light)) 30%,
+      white 60%
+    );
+  }
+
+  html {
+    font-family: "Manrope", system-ui, sans-serif;
+    background: #020202;
+  }
+
+  code {
+    font-family:
+      Menlo,
+      Monaco,
+      Lucida Console,
+      Liberation Mono,
+      DejaVu Sans Mono,
+      Bitstream Vera Sans Mono,
+      Courier New,
+      monospace;
+  }
+
+  body {
+    font-family: "Manrope", system-ui, sans-serif;
+    /* background-color: #020202;
+    background-image: url("/line.svg");
+    background-repeat: repeat;
+    background-size: 150px 150px; */
+    min-height: 100vh;
+    padding-top: 25px;
+    /* background-repeat: repeat;
+    animation: bg_loop 1000s linear infinite; */
+  }
+
+  header {
+    width: 90%;
+    color: #fff;
+  }
+
+  main {
+    padding: 1rem;
+    width: 900px;
+    max-width: calc(100% - 2rem);
+    color: #fff;
+    color: fff;
+    line-height: 1.6;
+  }
+
+  @keyframes bg_loop {
+    0% {
+      background-position: 0 0;
+      background-position-x: 0px;
+      background-position-y: 0px;
+    }
+    100% {
+      background-position: 1000% 100vh;
+      background-position-x: 1000%;
+      background-position-y: 2000%;
+    }
+  }
+
+  .animation-border {
+    background-color: #fff7;
+    border-radius: 25%;
+    height: 5px;
+    position: absolute;
+    offset-path: border-box;
+    offset-anchor: 100% 50%;
+    animation: rounded 6s linear infinite;
+  }
+
+  .animate-spin-infinite {
+    animation: spin 5s linear infinite;
+  }
+
+  .fixed-center {
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .svg-icons i {
+    display: flex;
+    width: 30px;
+    height: 30px;
+  }
+
+  .text-gradient {
+    background-image: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background: linear-gradient(to right top, rgb(205, 214, 228), rgb(29, 7, 226)) text;
+    background-size: 400%;
+    background-position: 0%;
+  }
+
+  .items-repeat {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    width: 100%;
+    gap: 20px;
+    list-style: none;
+  }
+
+  .bord-animation::before {
+    content: "";
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    animation: bord 7s linear infinite;
+    background-color: #fff;
+
+    box-shadow:
+      0 0 10px 3px #ffffffaa,
+      0 0 25px 6px #cacaca88,
+      0 0 40px 10px #68686833;
+  }
+
+  .shadow-card:hover {
+    box-shadow:
+      0 0 5px 1px #ffffffaa,
+      0 0 12px 3px #cacaca88,
+      0 0 20px 5px #68686833;
+  }
+
+  @keyframes rounded {
+    100% {
+      offset-distance: 100%;
+    }
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes bord {
+    0% {
+      bottom: calc(100% - 0.6em);
+      left: calc(0% - 2px);
+    }
+
+    24% {
+      bottom: 0.6em;
+      left: calc(0% - 2px);
+    }
+
+    25% {
+      bottom: 0.2em;
+      left: 0.2em;
+    }
+
+    26% {
+      bottom: calc(0% - 2px);
+      left: 0.6em;
+    }
+
+    49% {
+      bottom: calc(0% - 2px);
+      left: calc(100% - 0.6rem);
+    }
+
+    50% {
+      bottom: 0.2em;
+      right: 0.2em;
+    }
+
+    51% {
+      bottom: 0.6em;
+      left: calc(100% - 2px);
+    }
+
+    74% {
+      bottom: calc(100% - 0.6em);
+      left: calc(100% - 2px);
+    }
+
+    75% {
+      bottom: calc(100% - 0.2em);
+      righ: 0.2em;
+    }
+
+    76% {
+      bottom: calc(100% - 2px);
+      left: calc(100% - 0.6em);
+    }
+
+    98% {
+      bottom: calc(100% - 2px);
+      left: 0.6em;
+    }
+
+    99% {
+      bottom: calc(100% - 0.2rem);
+      left: 0.2rem;
+    }
+
+    to {
+      bottom: calc(100% - 0.6em);
+      left: 2px;
+    }
+  }
+</style>

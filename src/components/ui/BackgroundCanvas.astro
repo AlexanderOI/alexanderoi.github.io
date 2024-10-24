@@ -1,0 +1,123 @@
+<canvas id="BackgroundCanvas"></canvas>
+
+<script>
+  interface StarData {
+    x: number;
+    y: number;
+    size: number;
+    speed: number;
+  }
+
+  const renderCanvas = () => {
+    const canvas = document.getElementById("BackgroundCanvas") as HTMLCanvasElement;
+    const ctx = canvas.getContext("2d");
+
+    if (ctx) {
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      resizeCanvas();
+
+      const numStars = 200;
+
+      class Star {
+        x: number;
+        y: number;
+        size: number;
+        speed: number;
+
+        constructor(
+          x = Math.random() * canvas.width,
+          y = Math.random() * canvas.height,
+          size = Math.random() * 2,
+          speed = Math.random() * 0.5
+        ) {
+          this.x = x;
+          this.y = y;
+          this.size = size;
+          this.speed = speed;
+        }
+
+        update() {
+          this.y += this.speed;
+          if (this.y > canvas.height) {
+            this.y = 0;
+            this.x = Math.random() * canvas.width;
+          }
+        }
+
+        draw() {
+          if (!ctx) return;
+
+          ctx.fillStyle = "white";
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        toJSON() {
+          return { x: this.x, y: this.y, size: this.size, speed: this.speed };
+        }
+      }
+
+      const stars: Star[] = [];
+
+      function saveStarsToLocalStorage() {
+        const starData = stars.map((star) => star.toJSON());
+        localStorage.setItem("stars", JSON.stringify(starData));
+      }
+
+      function loadStarsFromLocalStorage() {
+        const savedStars = localStorage.getItem("stars");
+        if (savedStars) {
+          const parsedStars: StarData[] = JSON.parse(savedStars);
+          parsedStars.forEach((starData) => {
+            stars.push(new Star(starData.x, starData.y, starData.size, starData.speed));
+          });
+        } else {
+          for (let i = 0; i < numStars; i++) {
+            stars.push(new Star());
+          }
+        }
+      }
+
+      loadStarsFromLocalStorage();
+
+      function animate() {
+        if (!ctx) return;
+
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        stars.forEach((star) => {
+          star.update();
+          star.draw();
+        });
+        saveStarsToLocalStorage();
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+
+      window.addEventListener("resize", () => {
+        resizeCanvas();
+        saveStarsToLocalStorage();
+      });
+
+      window.addEventListener("beforeunload", saveStarsToLocalStorage);
+    }
+  };
+  document.addEventListener("astro:page-load", renderCanvas);
+</script>
+
+<style>
+  canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100vh;
+  }
+</style>

@@ -1,0 +1,14 @@
+---
+interface Props {
+  class?: string;
+  icons?: string;
+  border?: boolean;
+}
+
+const { class: customClasses, icons, border = true } = Astro.props;
+---
+
+<div class={`bg-dark-gray relative p-5 rounded-2xl ${customClasses}`} data-icons={icons}>
+  {border && <div class="animation-border w-7" />}
+  <slot />
+</div>
